@@ -1,112 +1,95 @@
-const   Video = require("../models/videoModel");
+const   Playlist = require("../models/videoModel");
 
 /**
- * Creates a video
  *
  * @param {*} req
  * @param {*} res
  */
 const videoPost = (req, res) => {
-  let video = new Video();
+  let playlist = new Playlist();
 
-  video.name = req.body.name;
-  video.link  = req.body.link;
-  video.user  = req.body.user;
+  playlist.name = req.body.name;
+  playlist.url  = req.body.url;
+  playlist.user  = req.body.user;
 
-  if (video.name && video.link) {
-    video.save()
-        .then(savedVideo => {
-            res.status(201).json(savedVideo);
+  if (playlist.name && playlist.url) {
+    playlist.save()
+        .then(savedPlaylist => {
+            res.status(201).json(savedPlaylist);
         })
         .catch(error => {
-            res.status(422).json({ error: 'There was an error saving the video' });
+            res.status(422).json({ error: 'There was an error saving the playlist' });
         });
 } else {
-    res.status(422).json({ error: 'No valid data provided for video' });
+    res.status(422).json({ error: 'No valid data provided for playlist' });
 }
 };
 
-/**
- * Get all videos
+/*
  *
  * @param {*} req
  * @param {*} res
  */
-const videoGet = (req, res) => {
+const videoGet = (req, res) => { 
     if (req.query && req.query.id) {
-        Video.findById(req.query.id)
-            .then(video => {
-                if (!video) {
-                    res.status(404).json({ error: "Video doesn't exist" });
-                } else {
-                    res.json(video);
-                }
+        Playlist.find({ user: req.query.id })
+            .then(playlists => {
+                res.json(playlists);
             })
             .catch(err => {
-                console.log('error while querying the video', err);
+                console.log('error while querying the playlist', err);
                 res.status(500).json({ error: "Internal server error" });
             });
     } else {
-        Video.find()
-            .then(videos => {
-                res.json(videos);
-            })
-            .catch(err => {
-                res.status(500).json({ error: err.message });
-            });
+        res.status(400).json({ error: "Missing 'id' parameter in query" });
     }
 };
 
 
 /**
- * Updates a video
  *
  * @param {*} req
  * @param {*} res
  */
 const videoPatch = (req, res) => {
-    // get video by id
     if (req.query && req.query.id) {
-        Video.findByIdAndUpdate(req.query.id, req.body, { new: true })
-            .then(video => {
-                if (!video) {
-                    res.status(404).json({ error: "Video doesn't exist" });
+        Playlist.findByIdAndUpdate(req.query.id, req.body, { new: true })
+            .then(playlist => {
+                if (!playlist) {
+                    res.status(404).json({ error: "Playlist doesn't exist" });
                 } else {
-                    res.json(video);
+                    res.json(playlist);
                 }
             })
             .catch(err => {
-                console.log('error while updating the video', err);
+                console.log('error while updating the playlist', err);
                 res.status(500).json({ error: "Internal server error" });
             });
     } else {
-        res.status(404).json({ error: "Video doesn't exist" });
+        res.status(404).json({ error: "Playlist doesn't exist" });
     }
 };
 
 /**
- * Deletes a video
- *
  * @param {*} req
  * @param {*} res
  */
 const videoDelete = (req, res) => {
-    // get video by id
     if (req.query && req.query.id) {
-        Video.findByIdAndDelete(req.query.id)
-            .then(video => {
-                if (!video) {
-                    res.status(404).json({ error: "Video doesn't exist" });
+        Playlist.findByIdAndDelete(req.query.id)
+            .then(playlist => {
+                if (!playlist) {
+                    res.status(404).json({ error: "Playlist doesn't exist" });
                 } else {
                     res.status(204).json({});
                 }
             })
             .catch(err => {
-                console.log('error while deleting the video', err);
+                console.log('error while deleting the playlist', err);
                 res.status(500).json({ error: "Internal server error" });
             });
     } else {
-        res.status(404).json({ error: "Video doesn't exist" });
+        res.status(404).json({ error: "Playlist doesn't exist" });
     }
 };
 
