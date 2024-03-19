@@ -23,7 +23,7 @@ app.patch("/api/videos", videoPatch);
 app.delete("/api/videos", videoDelete);
 
 app.get("/api/kids/",kidGet);
-app.get("/api/kidLogin",kidLogin);
+app.get("/api/kidsLogin",kidLogin);
 app.post("/api/kids", kidPost);
 app.patch("/api/kids", kidPatch);
 app.delete("/api/kids", kidDelete);
