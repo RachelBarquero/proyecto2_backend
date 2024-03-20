@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const video = new Schema({
   name: { type: String },
-  link: { type: String },
+  url: { type: String },
   user: {type: String}
 });
 
