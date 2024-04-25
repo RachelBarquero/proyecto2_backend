@@ -8,7 +8,7 @@ const sendSMS = async (to, body) => {
     try {
         const message = await client.messages.create({
             body,
-            from: '+12168209941',
+            from: '+18782954293',
             to
         });
         console.log('Mensaje enviado:', message.sid);

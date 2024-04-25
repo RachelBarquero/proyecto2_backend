@@ -5,8 +5,8 @@ const transporter = nodeMailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: "luisalejandrosln@gmail.com",
-        pass: "byvdvmxkcltrtedl"
+        user: "barquerorei@gmail.com",
+        pass: "yijovoasksleyhqp"
     }
 });
 
@@ -18,7 +18,7 @@ const sendEmail = async (to) => {
         }
 
         const mailOptions = {
-            from: "luisalejandrosln@gmail.com",
+            from: "barquerorei@gmail.com",
             to,
             subject:"Verificación de cuenta Tubekids",
             text: 'Ingrese a este link para verificar su cuenta: http://localhost:3000/login'
